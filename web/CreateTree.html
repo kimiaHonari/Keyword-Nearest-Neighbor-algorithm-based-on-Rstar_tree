@@ -1,0 +1,164 @@
+
+<script>
+    $("#createTree").on("submit",function(){
+
+        $("#error").append(' <div class="alert alert-success">'+'Creating Tree...'+'</div>');
+        console.log("hello");
+
+        $.post($(this).attr('action'), $(this).serialize(), function (json) {
+
+            console.log(json);
+            $.each(json, function (val, data) {
+
+
+                console.log(val);
+                if(val=="success"){
+                    $("#error").html("");
+
+                    $("#error").append(' <div class="alert alert-success">'+data+'</div>');
+                }
+                else{
+                    $("#error").append(' <div class="alert alert-danger">'+data+'</div>');
+                }
+            });
+        }, 'json');
+
+        return false;
+    });
+
+</script>
+
+
+
+<div class="container" style="margin-top:30px;">
+    <div id="error" style="margin-bottom: 20px;">
+
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-4">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">Keywords in Toronto</div>
+
+                <form id="createTree" action="/CreateTree" method="post">
+                    <ul class="list-group" id="list">
+
+                     <!--   <script>
+                            $(window).load(function () {
+
+
+                            $.ajax({
+
+                                url: "/GetKeyword",
+                                dataType: 'json',
+                                error: function () {
+
+                                    alert("Error Occured");
+                                },
+                                success: function (data) {
+
+                                    $.each(data, function (index, data) {
+
+                                        $('#list').append('<li class="list-group-item">');
+                                        $('#list').append(data);
+                                        $('#list').append(' <div class="material-switch pull-right">');
+                                        $('#list').append('<input id="'+index+'" name="'+index+'" type="checkbox"/>');
+                                        $('#list').append('<label for="'+index+'" class="label-default"></label> </div> </li>');
+
+                                    });
+
+
+
+                                }
+                            });
+                            });
+
+                        </script>-->
+                        <li class="list-group-item">
+                            Hotels
+                        <div class="material-switch pull-right">
+                            <input id="0" name="0" type="checkbox"/>
+                            <label for="0" class="label-default"></label>
+                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Arts & Entertainment
+                            <div class="material-switch pull-right">
+                                <input id="1" name="1" type="checkbox"/>
+                                <label for="1" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Fast Food
+                            <div class="material-switch pull-right">
+                                <input id="2" name="2" type="checkbox"/>
+                                <label for="2" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Bars
+                            <div class="material-switch pull-right">
+                                <input id="3" name="3" type="checkbox"/>
+                                <label for="3" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Shopping
+                            <div class="material-switch pull-right">
+                                <input id="4" name="4" type="checkbox"/>
+                                <label for="4" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Beauty & Spas
+                            <div class="material-switch pull-right">
+                                <input id="5" name="5" type="checkbox"/>
+                                <label for="5" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            Health & Medical
+                            <div class="material-switch pull-right">
+                                <input id="6" name="6" type="checkbox"/>
+                                <label for="6" class="label-default"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                        Local Services
+                        <div class="material-switch pull-right">
+                            <input id="7" name="7" type="checkbox"/>
+                            <label for="7" class="label-default"></label>
+                        </div>
+                    </li>
+
+                        <li class="list-group-item">
+                            Active Life
+                            <div class="material-switch pull-right">
+                                <input id="8" name="8" type="checkbox"/>
+                                <label for="8" class="label-default"></label>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div style="margin-top: 10px;">
+                        <button  type="submit" class="btn btn-success btn-block" >CreateTree</button>
+                    </div>
+                </form>
+
+
+                <div style="margin-top: 10px;">
+                    <a id="next" type="button" class="btn btn-primary btn-block"  href="/main.html">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

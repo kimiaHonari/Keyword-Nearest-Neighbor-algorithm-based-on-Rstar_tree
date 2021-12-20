@@ -1,0 +1,134 @@
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>K-NNE</title>
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <meta charset="utf-8">
+
+    <script src="resources/javascript/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="resources/javascript/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+<body>
+
+<div class="container" style="margin-top:30px;">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8 col-sm-offset-3 col-md-offset-3">
+
+             <div id="map" style="width: 400px; height:400px; margin-bottom: 20px;"> </div>
+
+            <form  class="form-inline" id="compute" action="/main" method="post">
+                <div class="form-group row">
+                    <label for="inputalpha" class="col-sm-2 col-form-label">alpha</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="inputalpha" name="alpha" value="50" placeholder="0-100">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
+        <div style="margin-top: 30px;">
+            <div id="table" >
+
+
+                <div class="table-container">
+                    <table class="table table-bordered" >
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>name</th>
+                            <th>city</th>
+                            <th>state</th>
+                            <th>lat</th>
+                            <th>lon</th>
+                            <th>stars</th>
+                            <th>categories</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+
+                    </table>
+                </div>
+        </div>
+        </div>
+        <script>
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 5,
+                center: new google.maps.LatLng( 43.638691, -79.41),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+
+            var marker, i;
+            i=0;
+            console.log(i);
+
+            $("#compute").on("submit",function(){
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 5,
+                    center: new google.maps.LatLng( 43.638691, -79.41),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                var infowindow = new google.maps.InfoWindow();
+                console.log("json");
+                $.post($(this).attr('action'), $(this).serialize(), function (json) {
+
+                    $("#tbody").html("");
+                    console.log("json2");
+                    $.each(json, function () {
+                        console.log(json);
+                        var lat,lon,name;
+                        $("#tbody").append('<tr style="margin-top: 5px;">');
+                        $.each(this, function (k, v) {
+                            if(k!= "1"){
+                                if(k=="2") {name=v;}
+                                if(k=="5") {lat=v;}
+                                if(k=="6") {lon=v;}
+
+                                $("#tbody").append('<th name="' + k + '"' + '>' + v + '</th>');
+                            }
+                        });
+                        $("#tbody").append('</tr>');
+                        console.log("marker");
+                        console.log(lat + lon + name);
+                        marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(lat, lon),
+                            map: map
+                        });
+
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            return function() {
+                                infowindow.setContent(name);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, i));
+                        i++;
+                    });
+
+
+
+                }, 'json');
+
+                return false;
+            });
+
+
+        </script>
+    </div>
+</div>
+</body>
+</html>
