@@ -1,5 +1,5 @@
 
-for create a database in mongodb you can use following command:
+for creating a database in mongodb you can use following command:
 
 biz_subset.json  ---> the data that create from [yelp dataset](https://www.yelp.com/dataset)
 
